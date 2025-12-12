@@ -1,0 +1,886 @@
+{
+    "stats": {
+        "totalQuestions": 88,
+        "completedQuestions": 0,
+        "streak": 0,
+        "topicsCovered": 6
+    },
+    "topics": [
+        {
+            "id": "java-core",
+            "title": "Core Java",
+            "icon": "Coffee",
+            "description": "Master the fundamentals of Java, OOPs, Multithreading, and Collections.",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "What is the difference between JDK, JRE, and JVM?",
+                    "answer": "This is a fundamental question. Let's break it down hierarchically.\n\n### 1. JVM (Java Virtual Machine)\n- **Role:** It is the engine that drives the Java code. It converts Java bytecode into machine language.\n- **Nature:** It is an abstract machine (specification). It doesn't physically exist but its implementation exists.\n- **Responsibility:** Loads code, verifies code, executes code, and manages memory.\n\n### 2. JRE (Java Runtime Environment)\n- **Role:** It is a software package that provides the class libraries, loader class, and JVM.\n- **Includes:** JVM + Libraries (rt.jar, etc.) + Other components.\n- **Use Case:** If you only want to *run* a Java program (not develop), you only need JRE.\n\n### 3. JDK (Java Development Kit)\n- **Role:** It is a full-featured software development environment.\n- **Includes:** JRE + Developmental Tools (javac, java, javadoc, jdb, etc.).\n- **Use Case:** Required by developers to write and compile Java programs.\n\n**Visual Equation:**\n> JDK = JRE + Development Tools\n> JRE = JVM + Library Classes",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Basics",
+                        "Architecture"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "question": "Explain the concept of OOPs with real-world examples.",
+                    "answer": "Object-Oriented Programming (OOP) mimics real-world scenarios using objects. The four main pillars are:\n\n### 1. Encapsulation\n**Definition:** Wrapping data (variables) and code (methods) together as a single unit.\n**Real World:** A capsule medicine. You don't know the exact chemical composition inside, you just use it. Or a generic car engine - hidden complexity under the hood.\n**Code:** Using `private` variables and `public` getters/setters.\n\n### 2. Inheritance\n**Definition:** Code reusability. One class acquires properties of another.\n**Real World:** Data transferred from valid parents to children (Genes).\n**Code:** `class Dog extends Animal`.\n\n### 3. Polymorphism\n**Definition:** \"Poly\" (many) + \"Morph\" (forms). Ability to take multiple forms.\n**Types:**\n- **Compile-time (Overloading):** Same method name, different parameters. E.g., `add(int a, int b)` vs `add(double a, double b)`.\n- **Runtime (Overriding):** Same method signature in parent and child. Child provides specific implementation.\n**Real World:** A man can be a father, a husband, and an employee at the same time.\n\n### 4. Abstraction\n**Definition:** Hiding internal details and showing only functionality.\n**Real World:** Driving a car. You know how to use the steering and pedals, but you don't need to know how the fuel injection works.\n**Code:** `abstract class` or `interface`.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "OOPs",
+                        "Concepts"
+                    ]
+                },
+                {
+                    "id": 3,
+                    "question": "Difference between `==` and `.equals()`?",
+                    "answer": "This is a classic trap for beginners.\n\n### `==` Operator\n- **Type:** Binary operator.\n- **Comparison:** Compares **reference** or **memory address** of objects.\n- **For Primitives:** Compares actual values (e.g., `5 == 5` is true).\n\n### `.equals()` Method\n- **Type:** Method in `Object` class.\n- **Comparison:** Default implementation compares references (like `==`), BUT it is generally **overridden** to compare **content/values**.\n- **Example (String):** the String class overrides `.equals()` to check character sequences.\n\n### Code Example\n```java\nString s1 = new String(\"HELLO\");\nString s2 = new String(\"HELLO\");\n\nSystem.out.println(s1 == s2);       // false (different memory objects)\nSystem.out.println(s1.equals(s2));  // true (same content)\n```\n\n**Note:** String literals works differently due to String Pool.\n```java\nString s3 = \"HELLO\";\nString s4 = \"HELLO\";\nSystem.out.println(s3 == s4);       // true (same pool reference)\n```",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Strings",
+                        "Basics"
+                    ]
+                },
+                {
+                    "id": 4,
+                    "question": "What is the contract between hashCode() and equals()?",
+                    "answer": "This contract is crucial for Hash-based collections like `HashMap`, `HashSet`, etc.\n\n**The Rules:**\n1. Defines consistency: If `x.equals(y)` is **true**, then `x.hashCode()` MUST generally equal `y.hashCode()`.\n2. If `x.equals(y)` is **false**, `x.hashCode()` and `y.hashCode()` *can* be the same (Collision), but it's better for performance if they are different.\n\n**Why?**\nCollections use hash code to find the 'bucket' where the object is stored. If hash codes match, it then uses `.equals()` to check if it's the specific object it's looking for.\n\n**Consequence:**\nIf you override `equals()`, you **MUST** override `hashCode()`. If you don't, your object might be treated as 'different' by a HashMap even if logical equality is true, leading to memory leaks or incorrect data retrieval.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Collections",
+                        "Core"
+                    ]
+                },
+                {
+                    "id": 5,
+                    "question": "Explain String Constant Pool (SCP).",
+                    "answer": "**String Constant Pool** is a special memory area in the Java Heap.\n\n**How it works?**\nWhen you create a string literal (e.g., `String s = \"Hello\"`), JVM checks the pool.\n- If \"Hello\" exists -> Returns reference to existing instance.\n- If doesn't exist -> Creates new instance in pool.\n\n**Vs `new` keyword:**\n`String s = new String(\"Hello\")` forces creation of a new object in the generic Heap memory, *plus* it might place a copy in the pool if interned.\n\n**Benefit:** huge memory saving by reusing immutable String objects.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Strings",
+                        "Memory"
+                    ]
+                },
+                {
+                    "id": 6,
+                    "question": "What is the difference between Abstract Class and Interface?",
+                    "answer": "### Abstract Class\n- Can have abstract AND concrete methods\n- Supports constructors\n- Can have instance variables (state)\n- Use `extends` keyword (single inheritance)\n\n### Interface\n- Only abstract methods (before Java 8)\n- No constructors\n- Only constants (public static final)\n- Use `implements` keyword (multiple inheritance)\n\n**Java 8+ Changes**: Interfaces can now have default and static methods.\n\n**When to use?**\n- Use abstract class when you have common code to share\n- Use interface when you want to define a contract",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "OOPs",
+                        "Interfaces"
+                    ]
+                },
+                {
+                    "id": 7,
+                    "question": "Explain final, finally, and finalize.",
+                    "answer": "### final\n- **Keyword** - Variables become constants, methods can't be overridden, classes can't be extended\n- Example: `final int MAX = 100;`\n\n### finally  \n- **Block** in try-catch - Always executes (even if exception occurs)\n- Used for cleanup (close files, DB connections)\n\n### finalize\n- **Method** called by Garbage Collector before destroying object\n- Deprecated in Java 9+\n- Syntax: `protected void finalize() throws Throwable`",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Keywords",
+                        "Basics"
+                    ]
+                },
+                {
+                    "id": 8,
+                    "question": "ArrayList vs LinkedList - When to use which?",
+                    "answer": "### ArrayList\n- **Internal**: Dynamic array\n- **Access**: O(1) - Fast random access by index\n- **Insert/Delete**: O(n) - Slow (shifting needed)\n- **Use when**: More reads, less modifications\n\n### LinkedList\n- **Internal**: Doubly linked list\n- **Access**: O(n) - Sequential traversal needed  \n- **Insert/Delete**: O(1) - Fast (just pointer change)\n- **Use when**: Frequent insertions/deletions\n\n**Memory**: ArrayList uses less memory than LinkedList (no node overhead)",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Collections"
+                    ]
+                },
+                {
+                    "id": 6,
+                    "question": "What is the difference between Abstract Class and Interface?",
+                    "answer": "### Abstract Class\n- Can have abstract AND concrete methods\n- Supports constructors\n- Can have instance variables (state)\n- Use `extends` keyword (single inheritance)\n\n### Interface\n- Only abstract methods (before Java 8)\n- No constructors\n- Only constants (public static final)\n- Use `implements` keyword (multiple inheritance)\n\n**Java 8+ Changes**: Interfaces can now have default and static methods.\n\n**When to use?**\n- Use abstract class when you have common code to share\n- Use interface when you want to define a contract",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "OOPs",
+                        "Interfaces"
+                    ]
+                },
+                {
+                    "id": 7,
+                    "question": "Explain final, finally, and finalize.",
+                    "answer": "### final\n- **Keyword** - Variables become constants, methods can't be overridden, classes can't be extended\n- Example: `final int MAX = 100;`\n\n### finally  \n- **Block** in try-catch - Always executes (even if exception occurs)\n- Used for cleanup (close files, DB connections)\n\n### finalize\n- **Method** called by Garbage Collector before destroying object\n- Deprecated in Java 9+\n- Syntax: `protected void finalize() throws Throwable`",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Keywords",
+                        "Basics"
+                    ]
+                },
+                {
+                    "id": 8,
+                    "question": "ArrayList vs LinkedList - When to use which?",
+                    "answer": "### ArrayList\n- **Internal**: Dynamic array\n- **Access**: O(1) - Fast random access by index\n- **Insert/Delete**: O(n) - Slow (shifting needed)\n- **Use when**: More reads, less modifications\n\n### LinkedList\n- **Internal**: Doubly linked list\n- **Access**: O(n) - Sequential traversal needed  \n- **Insert/Delete**: O(1) - Fast (just pointer change)\n- **Use when**: Frequent insertions/deletions\n\n**Memory**: ArrayList uses less memory than LinkedList (no node overhead)",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Collections"
+                    ]
+                },
+                {
+                    "id": 9,
+                    "question": "What is Method Overloading vs Method Overriding?",
+                    "answer": "### Method Overloading (Compile-time Polymorphism)\n- **Same method name**, different parameters (number, type, order)\n- **Same class**\n- Return type can be different\n- Example:\n```java\nint add(int a, int b)\ndouble add(double a, double b)\nint add(int a, int b, int c)\n```\n\n### Method Overriding (Runtime Polymorphism)\n- **Same method signature** (name + parameters)\n- **Subclass** overrides parent method\n- Must have same return type\n- Example:\n```java\nclass Animal { void sound() { } }\nclass Dog extends Animal { void sound() { sysout('Bark'); } }\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "OOPs",
+                        "Polymorphism"
+                    ]
+                },
+                {
+                    "id": 10,
+                    "question": "Explain static keyword in Java.",
+                    "answer": "**static** belongs to CLASS, not instance.\n\n### Static Variable\n- Shared among all objects\n- Memory allocated once\n```java\nstatic int count = 0;\n```\n\n### Static Method\n- Can be called without object\n- Can only access static members\n```java\nMath.sqrt(25); // static method\n```\n\n### Static Block\n- Executes when class is loaded\n```java\nstatic { System.out.println(\"Class loaded\"); }\n```\n\n**Why main is static?** JVM can call it without creating object.",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Keywords"
+                    ]
+                },
+                {
+                    "id": 11,
+                    "question": "What is Exception Handling? Checked vs Unchecked.",
+                    "answer": "Exception = Abnormal condition disrupting program flow.\n\n### Checked Exceptions\n- Checked at **compile-time**\n- Must handle with try-catch or throws\n- Examples: IOException, SQLException\n\n### Unchecked Exceptions\n- Checked at **runtime**\n- Not mandatory to handle\n- Examples: NullPointerException, ArrayIndexOutOfBoundsException\n\n### Hierarchy\n```\nThrowable\n├── Error (OutOfMemoryError)\n└── Exception\n    ├── RuntimeException (Unchecked)\n    └── IOException (Checked)\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Exception Handling"
+                    ]
+                },
+                {
+                    "id": 12,
+                    "question": "What is multithreading? Thread vs Runnable.",
+                    "answer": "Multithreading = Multiple threads executing concurrently.\n\n### Thread Class\n```java\nclass MyThread extends Thread {\n    public void run() { /* code */ }\n}\nMyThread t = new MyThread();\nt.start();\n```\n\n### Runnable Interface (Preferred)\n```java\nclass MyRunnable implements Runnable {\n    public void run() { /* code */ }\n}\nThread t = new Thread(new MyRunnable());\nt.start();\n```\n\n**Why Runnable better?**\n- Java doesn't support multiple inheritance\n- More flexible design",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Multithreading"
+                    ]
+                },
+                {
+                    "id": 13,
+                    "question": "Explain synchronized keyword.",
+                    "answer": "**synchronized** prevents thread interference.\n\n### Synchronized Method\n```java\npublic synchronized void increment() {\n    count++;\n}\n```\n\n### Synchronized Block\n```java\nsynchronized(this) {\n    count++;\n}\n```\n\n**How it works:**\n- Only ONE thread can execute at a time\n- Other threads wait (blocked)\n\n**Use when:** Accessing shared resources (bank account balance, etc.)",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Multithreading",
+                        "Concurrency"
+                    ]
+                },
+                {
+                    "id": 14,
+                    "question": "String vs StringBuilder vs StringBuffer.",
+                    "answer": "### String (Immutable)\n- Cannot be modified\n- Create new object for each change\n- Thread-safe (immutable)\n\n### StringBuilder (Mutable, Not Thread-safe)\n- Can be modified\n- **Fastest** (no synchronization)\n- Use in single-threaded\n\n### StringBuffer (Mutable, Thread-safe)\n- Can be modified  \n- Synchronized methods\n- Use in multi-threaded\n\n**Performance:** StringBuilder > StringBuffer > String",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Strings"
+                    ]
+                },
+                {
+                    "id": 15,
+                    "question": "What is Garbage Collection in Java?",
+                    "answer": "**Garbage Collection** = Automatic memory management.\n\n### How it works:\n1. JVM identifies unreferenced objects\n2. Frees memory occupied by them\n3. Prevents memory leaks\n\n### GC Methods:\n- `System.gc()` - suggests JVM to run GC (not guaranteed)\n- `finalize()` - called before object destruction (deprecated)\n\n### Types:\n- **Minor GC** - Young Generation\n- **Major GC** - Old Generation\n- **Full GC** - Entire Heap\n\n**Advantage:** Developer doesn't manually free memory (unlike C/C++)",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Memory Management"
+                    ]
+                },
+                {
+                    "id": 16,
+                    "question": "What is the difference between == and .equals()?",
+                    "answer": "### == Operator\n- Compares **references** (memory addresses)\n- For primitives: compares values\n- For objects: checks if both point to same memory location\n\n### .equals() Method\n- Compares **content/values**\n- Defined in Object class (can be overridden)\n- String class overrides it to compare characters\n\n**Example:**\n```java\nString s1 = new String(\"Hello\");\nString s2 = new String(\"Hello\");\ns1 == s2;        // false (different objects)\ns1.equals(s2);  // true (same content)\n```",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Basics",
+                        "Comparison"
+                    ]
+                },
+                {
+                    "id": 17,
+                    "question": "Explain try-with-resources in Java.",
+                    "answer": "**try-with-resources** automatically closes resources (Java 7+).\n\n### Syntax:\n```java\ntry (FileReader fr = new FileReader(\"file.txt\");\n     BufferedReader br = new BufferedReader(fr)) {\n    String line = br.readLine();\n} catch (IOException e) {\n    e.printStackTrace();\n}\n// Resources closed automatically!\n```\n\n### Benefits:\n- No need for finally block\n- Resources closed in reverse order\n- Works with any AutoCloseable resource\n\n**Before Java 7:**\n```java\nBufferedReader br = null;\ntry {\n    br = new BufferedReader(new FileReader(\"file.txt\"));\n} finally {\n    if (br != null) br.close(); // Manual closing\n}\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Exception Handling",
+                        "Resources"
+                    ]
+                },
+                {
+                    "id": 18,
+                    "question": "What is Stream API in Java 8?",
+                    "answer": "Stream API enables functional-style operations on collections.\n\n### Common Operations:\n\n**Filter:**\n```java\nlist.stream()\n    .filter(x -> x > 10)\n    .collect(Collectors.toList());\n```\n\n**Map:**\n```java\nlist.stream()\n    .map(x -> x * 2)\n    .forEach(System.out::println);\n```\n\n**Reduce:**\n```java\nint sum = list.stream()\n    .reduce(0, (a, b) -> a + b);\n```\n\n### Characteristics:\n- **Lazy evaluation**: Operations only execute when terminal operation called\n- **Immutable**: Original collection not modified\n- **Parallel processing**: Use `.parallelStream()` for multi-threading",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Java 8",
+                        "Streams"
+                    ]
+                },
+                {
+                    "id": 19,
+                    "question": "What is Optional class? Why use it?",
+                    "answer": "**Optional** is a container object to avoid NullPointerException.\n\n### Usage:\n```java\nOptional<String> optional = Optional.ofNullable(getValue());\n\n// Check if present\nif (optional.isPresent()) {\n    System.out.println(optional.get());\n}\n\n// Better: use orElse\nString value = optional.orElse(\"default value\");\n\n// or orElseThrow\nString value = optional.orElseThrow(() -> new Exception());\n```\n\n### Benefits:\n- Explicit null handling\n- Prevents NullPointerException\n- More readable code\n\n**Interview Tip:** Introduced in Java 8 for functional programming",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Java 8",
+                        "Null Safety"
+                    ]
+                },
+                {
+                    "id": 20,
+                    "question": "What is serialVersionUID in Serialization?",
+                    "answer": "**serialVersionUID** is used during deserialization to verify sender and receiver compatibility.\n\n### Purpose:\n- Ensures class version matches during deserialization\n- If not declared, JVM generates one automatically\n- Mismatched UID throws InvalidClassException\n\n### Usage:\n```java\npublic class Employee implements Serializable {\n    private static final long serialVersionUID = 1L;\n    private String name;\n    private int age;\n}\n```\n\n**Best Practice:** Always declare explicit serialVersionUID to maintain compatibility across versions.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Serialization"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "spring-boot",
+            "title": "Spring Boot",
+            "icon": "Leaf",
+            "description": "Production-ready apps, Dependency Injection, and Microservices.",
+            "questions": [
+                {
+                    "id": 101,
+                    "question": "Why Spring Boot over Spring?",
+                    "answer": "Spring Boot is an opinionated framework that simplifies Spring development.\n\n### Key Differences\n\n| Feature | Spring Framework | Spring Boot |\n|---------|------------------|-------------|\n| **Configuration** | Heavy XML or Annotation based config required. | Zero configuration approach (Auto-config). |\n| **Server** | Must download and setup specific server (Tomcat/Jetty) | Embedded servers (Tomcat/Jetty/Undertow). Just run JAR. |\n| **Dependencies** | Manual version management (Collision hell). | **Starters** (e.g., `spring-boot-starter-web`) handle dependencies automatically. |\n| **Metrics** | Manual implementation. | **Actuator** provides production-ready metrics out of the box. |\n\n**Summary:** Spring Boot is \"Spring on Steroids\" - focus on logic, not config.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Framework"
+                    ]
+                },
+                {
+                    "id": 102,
+                    "question": "How does Auto-Configuration work?",
+                    "answer": "Auto-configuration is the magic behind Spring Boot.\n\n**Mechanism:**\n1. **`@EnableAutoConfiguration`**: This annotation (part of `@SpringBootApplication`) triggers the process.\n2. **Classpath Scanning**: It checks your `pom.xml` / `build.gradle`. Is `H2` database on classpath? Is `Spring MVC` on classpath?\n3. **Conditional Logic**: It uses annotations like `@ConditionalOnClass`, `@ConditionalOnMissingBean`.\n\n**Example:**\nIf you have `spring-boot-starter-web` (which has Tomcat) and you haven't defined a server, Spring Boot says: *\"I see Tomcat logic on the classpath, and no user-defined server configuration. I will configure an embedded Tomcat server on port 8080 automatically.\"*",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Internals"
+                    ]
+                },
+                {
+                    "id": 103,
+                    "question": "Explain Spring Bean Lifecycle.",
+                    "answer": "The lifecycle of a Bean is managed by the Spring IoC (Inversion of Control) Container.\n\n**Main Steps:**\n1. **Instantiation**: Container creates the instance of the bean.\n2. **Populate Properties**: Dependency Injection happens here (Setters/Fields).\n3. **SetGroups**: Calls `setBeanName`, `setBeanFactory`.\n4. **Pre-Initialization**: `BeanPostProcessor.postProcessBeforeInitialization`.\n5. **Initialization**: Custom `init-method` or `@PostConstruct`.\n6. **Post-Initialization**: `BeanPostProcessor.postProcessAfterInitialization`.\n7. **Ready**: Bean is ready to use.\n8. **Destruction**: `@PreDestroy` or `destroy-method` when container shuts down.\n\n**Interview Tip:** Mention `@PostConstruct` and `@PreDestroy` as they are the most common ways developers hook into this lifecycle.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Spring Core"
+                    ]
+                },
+                {
+                    "id": 104,
+                    "question": "What is Dependency Injection types?",
+                    "answer": "Dependency Injection (DI) is a design pattern where the IoC container provides the dependencies an object needs.\n\n### 1. Constructor Injection (Recommended)\n- Dependencies are passed via constructor.\n- **Pros:** Ensures object passes strictly valid state (cannot be null), easy to test.\n```java\n@Service\npublic class UserService {\n    private final UserRepository repo;\n    public UserService(UserRepository repo) { this.repo = repo; }\n}\n```\n\n### 2. Setter Injection\n- Dependencies passed via setter methods.\n- **Pros:** Optional dependencies.\n\n### 3. Field Injection (Not Recommended)\n- Using `@Autowired` directly on fields.\n- **Cons:** Hard to test (need reflection), breaks encapsulation, hides dependencies.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "DI",
+                        "Best Practices"
+                    ]
+                },
+                {
+                    "id": 105,
+                    "question": "What is @Controller vs @RestController?",
+                    "answer": "### @Controller\n- Returns **View** (HTML pages)\n- Used in MVC pattern with Thymeleaf/JSP\n- Need `@ResponseBody` to return data\n\n### @RestController\n- `@Controller` + `@ResponseBody` combined\n- Returns **JSON/XML** data directly\n- Used for REST APIs\n\n**Example**:\n```java\n@RestController\npublic class UserAPI {\n    @GetMapping(\"/users\")\n    public List<User> getUsers() {\n        return userService.findAll(); // Returns JSON\n    }\n}\n```",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Annotations",
+                        "REST"
+                    ]
+                },
+                {
+                    "id": 106,
+                    "question": "Explain Spring Boot Starters.",
+                    "answer": "Starters are dependency descriptors that simplify Maven/Gradle configuration.\n\n**Common Starters**:\n- `spring-boot-starter-web`: Web + REST (includes Tomcat, Spring MVC, Jackson)\n- `spring-boot-starter-data-jpa`: JPA + Hibernate\n- `spring-boot-starter-security`: Spring Security\n- `spring-boot-starter-test`: JUnit, Mockito, etc.\n\n**Benefits**:\n- One dependency = All required jars\n- Version compatibility managed\n- No dependency hell",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Configuration"
+                    ]
+                },
+                {
+                    "id": 105,
+                    "question": "What is @Controller vs @RestController?",
+                    "answer": "### @Controller\n- Returns **View** (HTML pages)\n- Used in MVC pattern with Thymeleaf/JSP\n- Need `@ResponseBody` to return data\n\n### @RestController\n- `@Controller` + `@ResponseBody` combined\n- Returns **JSON/XML** data directly\n- Used for REST APIs\n\n**Example**:\n```java\n@RestController\npublic class UserAPI {\n    @GetMapping(\"/users\")\n    public List<User> getUsers() {\n        return userService.findAll(); // Returns JSON\n    }\n}\n```",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Annotations",
+                        "REST"
+                    ]
+                },
+                {
+                    "id": 106,
+                    "question": "Explain Spring Boot Starters.",
+                    "answer": "Starters are dependency descriptors that simplify Maven/Gradle configuration.\n\n**Common Starters**:\n- `spring-boot-starter-web`: Web + REST (includes Tomcat, Spring MVC, Jackson)\n- `spring-boot-starter-data-jpa`: JPA + Hibernate\n- `spring-boot-starter-security`: Spring Security\n- `spring-boot-starter-test`: JUnit, Mockito, etc.\n\n**Benefits**:\n- One dependency = All required jars\n- Version compatibility managed\n- No dependency hell",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Configuration"
+                    ]
+                },
+                {
+                    "id": 107,
+                    "question": "What are different bean scopes in Spring?",
+                    "answer": "### Singleton (Default)\n- ONE instance per Spring container\n- Same object returned every time\n\n### Prototype  \n- NEW instance each time bean is requested\n\n### Request (Web)\n- New instance per HTTP request\n\n### Session (Web)\n- New instance per HTTP session\n\n### Application\n- One instance per ServletContext\n\n```java\n@Scope(\"prototype\")\n@Component\npublic class MyBean { }\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Spring Core",
+                        "Beans"
+                    ]
+                },
+                {
+                    "id": 108,
+                    "question": "Explain @Autowired, @Qualifier, @Primary.",
+                    "answer": "### @Autowired\nAuto dependency injection by type\n```java\n@Autowired\nprivate UserRepository repo;\n```\n\n### @Qualifier\nResolves ambiguity when multiple beans of same type exist\n```java\n@Autowired\n@Qualifier(\"mysqlRepo\")\nprivate UserRepository repo;\n```\n\n### @Primary\nMarks default bean when multiple candidates exist\n```java\n@Primary\n@Component\npublic class MySQLRepo implements UserRepository { }\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "DI",
+                        "Annotations"
+                    ]
+                },
+                {
+                    "id": 109,
+                    "question": "JPA vs Hibernate difference?",
+                    "answer": "### JPA (Java Persistence API)\n- **Specification** / Interface\n- Standard for ORM\n- Vendor independent\n\n### Hibernate\n- **Implementation** of JPA\n- Most popular ORM framework\n- Has additional features beyond JPA\n\n**Analogy:** JPA = Interface, Hibernate = Implementation\n\nOther JPA implementations: EclipseLink, OpenJPA",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Database",
+                        "ORM"
+                    ]
+                },
+                {
+                    "id": 110,
+                    "question": "What is Spring Boot Actuator?",
+                    "answer": "Actuator provides **production-ready** features for monitoring and managing.\n\n### Key Endpoints:\n- `/actuator/health` - Application health\n- `/actuator/metrics` - Application metrics\n- `/actuator/info` - Application info\n- `/actuator/env` - Environment properties\n- `/actuator/beans` - All Spring beans\n\n### Enable:\n```xml\n<dependency>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-starter-actuator</artifactId>\n</dependency>\n```\n\n**Use:** Monitoring in production, health checks for load balancers",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Monitoring",
+                        "DevOps"
+                    ]
+                },
+                {
+                    "id": 111,
+                    "question": "How to handle exceptions in Spring Boot?",
+                    "answer": "### @ControllerAdvice\nGlobal exception handler\n```java\n@ControllerAdvice\npublic class GlobalExceptionHandler {\n    @ExceptionHandler(ResourceNotFoundException.class)\n    public ResponseEntity<?> handleNotFound(Exception ex) {\n        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);\n    }\n}\n```\n\n### @ResponseStatus\n```java\n@ResponseStatus(HttpStatus.NOT_FOUND)\npublic class ResourceNotFoundException extends Exception { }\n```\n\n**Best Practice:** Centralized error handling with meaningful HTTP status codes",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Exception Handling",
+                        "REST"
+                    ]
+                },
+                {
+                    "id": 112,
+                    "question": "What is application.properties vs application.yml?",
+                    "answer": "Both used for externalized configuration.\n\n### application.properties\n```properties\nserver.port=8080\nspring.datasource.url=jdbc:mysql://localhost/db\n```\n\n### application.yml (Preferred)\n```yaml\nserver:\n  port: 8080\nspring:\n  datasource:\n    url: jdbc:mysql://localhost/db\n```\n\n**Advantages of YAML:**\n- More readable (hierarchical)\n- Less repetitive\n- Supports lists\n\nBoth work the same, just syntax difference.",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Configuration"
+                    ]
+                },
+                {
+                    "id": 113,
+                    "question": "What is @RequestBody and @ResponseBody?",
+                    "answer": "### @RequestBody\nBinds HTTP request body to Java object (JSON → Object)\n```java\n@PostMapping(\"/users\")\npublic User createUser(@RequestBody User user) {\n    return userService.save(user);\n}\n```\n\n### @ResponseBody\nConverts Java object to HTTP response body (Object → JSON)\n```java\n@ResponseBody\n@GetMapping(\"/users/{id}\")\npublic User getUser(@PathVariable Long id) {\n    return userService.findById(id);\n}\n```\n\n**Note:** @RestController = @Controller + @ResponseBody combined",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "REST",
+                        "Annotations"
+                    ]
+                },
+                {
+                    "id": 114,
+                    "question": "Explain Lazy vs Eager loading in Hibernate.",
+                    "answer": "### Lazy Loading (Default)\n- Data loaded **on-demand** (when accessed)\n- Improves performance (less initial query)\n- May cause LazyInitializationException if session closed\n```java\n@OneToMany(fetch = FetchType.LAZY)\nprivate List<Order> orders;\n```\n\n### Eager Loading\n- Data loaded **immediately** with parent\n- Can cause performance issues (N+1 problem)\n- No LazyInitializationException\n```java\n@ManyToOne(fetch = FetchType.EAGER)\nprivate User user;\n```\n\n**Best Practice:** Use Lazy for collections, Eager for single entities (if always needed)",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Hibernate",
+                        "JPA"
+                    ]
+                },
+                {
+                    "id": 115,
+                    "question": "What is @Transactional annotation?",
+                    "answer": "@Transactional manages database transactions automatically.\n\n### Usage:\n```java\n@Transactional\npublic void transferMoney(Long from, Long to, Double amount) {\n    accountService.debit(from, amount);\n    accountService.credit(to, amount);\n    // If any fails, both rollback\n}\n```\n\n### Properties:\n- **propagation**: REQUIRED, REQUIRES_NEW, etc.\n- **isolation**: READ_COMMITTED, SERIALIZABLE, etc.\n- **rollbackFor**: Which exceptions trigger rollback\n- **readOnly**: Optimization for read operations\n\n**Default:** Rolls back on RuntimeException only (not checked exceptions)",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Transactions",
+                        "Database"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "database",
+            "title": "Database (SQL)",
+            "icon": "Database",
+            "description": "SQL optimization, Normalization, ACID, and Indexing.",
+            "questions": [
+                {
+                    "id": 201,
+                    "question": "Detailed difference: DELETE vs TRUNCATE vs DROP?",
+                    "answer": "| Feature | DELETE | TRUNCATE | DROP |\n|:--------|:-------|:---------|:-----|\n| **Type** | DML (Data Manipulation) | DDL (Data Definition) | DDL |\n| **Action** | Deletes rows conditionally. | Deletes ALL rows. Resets identity. | Deletes table structure + data. |\n| **Where Clause** | Allowed (`DELETE FROM User WHERE id=1`) | NOT Allowed | NOT Allowed |\n| **Rollback** | Possible (logs each deletion). | Not possible (minimal logging).* | Not possible. |\n| **Speed** | Slow (row-by-row). | Fast (deallocates pages). | Fastest. |\n\n*Note: In some DBs like SQL Server, Truncate *can* be rolled back if inside a transaction block, but generally treated as non-rollbackable in interviews.*",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "SQL Commands"
+                    ]
+                },
+                {
+                    "id": 202,
+                    "question": "Explain ACID properties in depth.",
+                    "answer": "ACID properties ensure transaction reliability.\n\n### Atomicity (All or Nothing)\nTransaction is a single unit of work. If one part fails, the entire transaction fails. \n*Example: Money deducted from A but not added to B? Rollback everything.*\n\n### Consistency (Valid State)\nDatabase must move from one valid state to another valid state, obeying all constraints (FK, Unique, Checks).\n\n### Isolation (Independency)\nConcurrent transactions should not interfere with each other. \n*Levels: Read Uncommitted, Read Committed, Repeatable Read, Serializable.*\n\n### Durability (Permanence)\nOnce committed, data stays committed even if power fails immediately after. Stored in non-volatile memory.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Concepts"
+                    ]
+                },
+                {
+                    "id": 203,
+                    "question": "What is an Index? How does it make searching fast?",
+                    "answer": "**Definition:** An index is a data structure (usually B-Tree) that improves speed of data retrieval.\n\n**Analogy:** The index at the back of a book. Without it, you'd scan every page (Full Table Scan) to find \"Polymorphism\". With it, you go to 'P', find page number, and jump directly.\n\n**Cost:**\n- **Write Speed:** Slows down `INSERT`/`UPDATE` operations because the index must also be updated.\n- **Storage:** Consumes extra disk space.\n\n**Clustered vs Non-Clustered:**\n- **Clustered:** Sorts the actual data rows (like a Dictionary). Only 1 per table (usually PK).\n- **Non-Clustered:** Separate structure pointing to data rows (like Book Index). Can have multiple.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Performance"
+                    ]
+                },
+                {
+                    "id": 204,
+                    "question": "Explain all types of JOINs with examples.",
+                    "answer": "### INNER JOIN\nReturns only matching rows from both tables.\n```sql\nSELECT * FROM Orders O \nINNER JOIN Customers C ON O.customer_id = C.id;\n```\n\n### LEFT JOIN\nAll rows from LEFT table + matching from RIGHT (NULL if no match).\n\n### RIGHT JOIN\nAll rows from RIGHT table + matching from LEFT.\n\n### FULL OUTER JOIN\nAll rows from both tables (NULL where no match).\n\n### CROSS JOIN\nCartesian product (every row of table1 × every row of table2).",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Joins"
+                    ]
+                },
+                {
+                    "id": 205,
+                    "question": "What is Normalization? Explain 1NF, 2NF, 3NF.",
+                    "answer": "Normalization = Organizing data to reduce redundancy.\n\n### 1NF (First Normal Form)\n- Each column has atomic (single) values\n- No repeating groups\n\n### 2NF\n- Must be in 1NF\n- No partial dependency (all non-key attributes fully depend on primary key)\n\n### 3NF\n- Must be in 2NF\n- No transitive dependency (non-key attributes don't depend on other non-key attributes)\n\n**Example**: Student(ID, Name, Course, Instructor, Instructor_Phone)\n- Violates 3NF: Instructor_Phone depends on Instructor, not ID",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Database Design"
+                    ]
+                },
+                {
+                    "id": 204,
+                    "question": "Explain all types of JOINs with examples.",
+                    "answer": "### INNER JOIN\nReturns only matching rows from both tables.\n```sql\nSELECT * FROM Orders O \nINNER JOIN Customers C ON O.customer_id = C.id;\n```\n\n### LEFT JOIN\nAll rows from LEFT table + matching from RIGHT (NULL if no match).\n\n### RIGHT JOIN\nAll rows from RIGHT table + matching from LEFT.\n\n### FULL OUTER JOIN\nAll rows from both tables (NULL where no match).\n\n### CROSS JOIN\nCartesian product (every row of table1 × every row of table2).",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Joins"
+                    ]
+                },
+                {
+                    "id": 205,
+                    "question": "What is Normalization? Explain 1NF, 2NF, 3NF.",
+                    "answer": "Normalization = Organizing data to reduce redundancy.\n\n### 1NF (First Normal Form)\n- Each column has atomic (single) values\n- No repeating groups\n\n### 2NF\n- Must be in 1NF\n- No partial dependency (all non-key attributes fully depend on primary key)\n\n### 3NF\n- Must be in 2NF\n- No transitive dependency (non-key attributes don't depend on other non-key attributes)\n\n**Example**: Student(ID, Name, Course, Instructor, Instructor_Phone)\n- Violates 3NF: Instructor_Phone depends on Instructor, not ID",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Database Design"
+                    ]
+                },
+                {
+                    "id": 206,
+                    "question": "Primary Key vs Unique Key vs Foreign Key.",
+                    "answer": "### Primary Key\n- **Uniquely identifies** each row\n- **NOT NULL** automatically\n- Only **ONE** per table\n- Creates **clustered index**\n\n### Unique Key\n- Ensures uniqueness\n- Can have **NULL** values (one NULL allowed)\n- **Multiple** allowed per table\n\n### Foreign Key\n- References Primary Key of another table\n- Maintains **referential integrity**\n- Can have duplicate values\n\n**Example:**\n```sql\nCREATE TABLE Students (\n    id INT PRIMARY KEY,\n    email VARCHAR(100) UNIQUE,\n    class_id INT FOREIGN KEY REFERENCES Classes(id)\n);\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Keys",
+                        "Constraints"
+                    ]
+                },
+                {
+                    "id": 207,
+                    "question": "What is a View in SQL?",
+                    "answer": "**View** = Virtual table based on a query.\n\n### Create View\n```sql\nCREATE VIEW active_users AS\nSELECT id, name, email\nFROM users\nWHERE status = 'active';\n```\n\n### Use View\n```sql\nSELECT * FROM active_users;\n```\n\n### Advantages:\n- **Security** - hide sensitive columns\n- **Simplicity** - complex joins as simple table\n- **Consistency** - reusable logic\n\n**Materialized View:** Stores result physically (faster but needs refresh)",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Views"
+                    ]
+                },
+                {
+                    "id": 208,
+                    "question": "Explain Stored Procedure vs Function.",
+                    "answer": "### Stored Procedure\n- Can **modify** data (INSERT, UPDATE, DELETE)\n- Returns via OUT parameters\n- Can't be used in SELECT\n```sql\nCALL update_salary(emp_id, new_salary);\n```\n\n### Function\n- **Read-only** (only SELECT)\n- Returns single value\n- Can be used in SELECT\n```sql\nSELECT calculate_age(birth_date) FROM users;\n```\n\n**Use Procedure:** Complex business logic, data modifications\n**Use Function:** Calculations, transformations in queries",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Stored Procedures"
+                    ]
+                },
+                {
+                    "id": 209,
+                    "question": "What is a Transaction? COMMIT vs ROLLBACK.",
+                    "answer": "**Transaction** = Group of operations (all or nothing).\n\n### Commands:\n- `BEGIN TRANSACTION` - Start\n- `COMMIT` - Save changes permanently\n- `ROLLBACK` - Undo changes\n- `SAVEPOINT` - Set intermediate point\n\n### Example:\n```sql\nBEGIN TRANSACTION;\n    UPDATE accounts SET balance = balance - 100 WHERE id = 1;\n    UPDATE accounts SET balance = balance + 100 WHERE id = 2;\nCOMMIT; -- Both succeed\n-- If error: ROLLBACK; -- Both cancelled\n```\n\n**ACID Properties ensure transaction reliability.**",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Transactions"
+                    ]
+                },
+                {
+                    "id": 210,
+                    "question": "NoSQL vs SQL databases.",
+                    "answer": "### SQL (Relational)\n- **Structured** data (tables, rows, columns)\n- **Fixed schema**\n- **ACID** compliant\n- Examples: MySQL, PostgreSQL\n- Use: Banking, E-commerce\n\n### NoSQL (Non-Relational)\n- **Unstructured** data (documents, key-value)\n- **Flexible schema**\n- **BASE** (Basically Available, Soft state, Eventually consistent)\n- Examples: MongoDB, Redis, Cassandra\n- Use: Social media, Big Data, Real-time apps\n\n**When to use NoSQL:**\n- Massive scale\n- Rapid development\n- Unstructured data",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Database Types"
+                    ]
+                },
+                {
+                    "id": 211,
+                    "question": "Explain GROUP BY and HAVING clause.",
+                    "answer": "### GROUP BY\nGroups rows that have same values\n```sql\nSELECT department, COUNT(*)\nFROM employees\nGROUP BY department;\n```\n\n### HAVING\nFilters groups (WHERE filters rows)\n```sql\nSELECT department, AVG(salary)\nFROM employees\nGROUP BY department\nHAVING AVG(salary) > 50000;\n```\n\n### WHERE vs HAVING:\n- **WHERE**: Applied before GROUP BY\n- **HAVING**: Applied after GROUP BY\n\n**Example:**\n```sql\nSELECT city, COUNT(*)\nFROM customers\nWHERE age > 18        -- Filter rows first\nGROUP BY city\nHAVING COUNT(*) > 5;  -- Then filter groups\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Aggregation"
+                    ]
+                },
+                {
+                    "id": 212,
+                    "question": "What are Subqueries? Correlated vs Non-correlated.",
+                    "answer": "**Subquery** = Query within another query\n\n### Non-Correlated Subquery\nExecutes independently (once)\n```sql\nSELECT name FROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees);\n```\n\n### Correlated Subquery\nExecutes for each row of outer query (slower)\n```sql\nSELECT e1.name, e1.salary\nFROM employees e1\nWHERE e1.salary > (\n    SELECT AVG(e2.salary)\n    FROM employees e2\n    WHERE e2.department = e1.department\n);\n```\n\n**Performance:** Non-correlated is faster",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Queries"
+                    ]
+                },
+                {
+                    "id": 213,
+                    "question": "What is a Trigger in SQL?",
+                    "answer": "**Trigger** = Automatic action when event occurs\n\n### Types:\n- **BEFORE**: Executes before INSERT/UPDATE/DELETE\n- **AFTER**: Executes after operation\n\n### Example:\n```sql\nCREATE TRIGGER update_timestamp\nBEFORE UPDATE ON employees\nFOR EACH ROW\nBEGIN\n    SET NEW.updated_at = NOW();\nEND;\n```\n\n### Use Cases:\n- Audit logging\n- Data validation\n- Auto-populate fields\n- Maintain data integrity\n\n**Caution:** Overuse can impact performance",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Database Objects"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "react",
+            "title": "React.js",
+            "icon": "Code",
+            "description": "Component Lifecycle, Hooks, Redux, and Virtual DOM.",
+            "questions": [
+                {
+                    "id": 301,
+                    "question": "Explain React Hooks deep dive.",
+                    "answer": "Hooks (introduced in React 16.8) allow function components to have state and lifecycle.\n\n### Common Hooks\n\n1. **`useState`**: Manages local state.\n   ```js\n   const [count, setCount] = useState(0);\n   ```\n\n2. **`useEffect`**: Use for side effects (API calls, subscriptions).\n   - Dependency Array `[]` = Runs once (componentDidMount).\n   - `[prop]` = Runs when prop changes (componentDidUpdate).\n   - Return function = Cleanup (componentWillUnmount).\n\n3. **`useContext`**: Avoids prop drilling by consuming context globally.\n\n4. **`useMemo`**: Memoizes a *value* to avoid expensive recalculations.\n\n5. **`useCallback`**: Memoizes a *function* instance to prevent unnecessary child re-renders.\n\n**Rule of Hooks:**\n- Only call at the top level (no loops/conditions).\n- Only call from React functions.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Hooks"
+                    ]
+                },
+                {
+                    "id": 302,
+                    "question": "Virtual DOM & Reconciliation/Diffing Algorithm.",
+                    "answer": "**Problem with Real DOM:** It is slow to update. Relayout and repainting is expensive.\n\n**Solution: Virtual DOM (VDOM)**\n1. VDOM is a lightweight Javascript object representation of DOM.\n2. When state changes, React creates a **new** VDOM tree.\n3. **Diffing Algorithm:** React compares the new VDOM with the previous VDOM.\n   - It identifies exactly what changed (e.g., just the text of one button).\n4. **Reconciliation:** React updates *only* those specific nodes in the Real DOM.\n\n**Why is it faster?**\nBatch updates minimize the interaction with the heavy browser DOM API.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Architecture"
+                    ]
+                },
+                {
+                    "id": 303,
+                    "question": "What is Props vs State in React?",
+                    "answer": "### Props\n- **Passed** from parent to child\n- **Immutable** (read-only in child)\n- Used for component configuration\n\n### State\n- **Internal** to component\n- **Mutable** (can be changed with setState/useState)\n- Triggers re-render when changed\n\n**Analogy**: Props = Function parameters, State = Local variables",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Basics"
+                    ]
+                },
+                {
+                    "id": 304,
+                    "question": "Explain useEffect dependency array.",
+                    "answer": "The dependency array controls **when** useEffect runs:\n\n### No array (omitted)\n```js\nuseEffect(() => { /* runs on every render */ });\n```\n\n### Empty array `[]`\n```js\nuseEffect(() => { /* runs once on mount */ }, []);\n```\n\n### With dependencies\n```js\nuseEffect(() => { /* runs when count changes */ }, [count]);\n```\n\n**Cleanup**: Return function runs on unmount\n```js\nuseEffect(() => {\n    const timer = setInterval(...);\n    return () => clearInterval(timer); // cleanup\n}, []);\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Hooks"
+                    ]
+                },
+                {
+                    "id": 303,
+                    "question": "What is Props vs State in React?",
+                    "answer": "### Props\n- **Passed** from parent to child\n- **Immutable** (read-only in child)\n- Used for component configuration\n\n### State\n- **Internal** to component\n- **Mutable** (can be changed with setState/useState)\n- Triggers re-render when changed\n\n**Analogy**: Props = Function parameters, State = Local variables",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Basics"
+                    ]
+                },
+                {
+                    "id": 304,
+                    "question": "Explain useEffect dependency array.",
+                    "answer": "The dependency array controls **when** useEffect runs:\n\n### No array (omitted)\n```js\nuseEffect(() => { /* runs on every render */ });\n```\n\n### Empty array `[]`\n```js\nuseEffect(() => { /* runs once on mount */ }, []);\n```\n\n### With dependencies\n```js\nuseEffect(() => { /* runs when count changes */ }, [count]);\n```\n\n**Cleanup**: Return function runs on unmount\n```js\nuseEffect(() => {\n    const timer = setInterval(...);\n    return () => clearInterval(timer); // cleanup\n}, []);\n```",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Hooks"
+                    ]
+                },
+                {
+                    "id": 305,
+                    "question": "Class Components vs Functional Components.",
+                    "answer": "### Class Components\n```jsx\nclass MyComponent extends React.Component {\n    constructor(props) {\n        super(props);\n        this.state = { count: 0 };\n    }\n    render() { return <div>{this.state.count}</div>; }\n}\n```\n\n### Functional Components (Modern)\n```jsx\nfunction MyComponent() {\n    const [count, setCount] = useState(0);\n    return <div>{count}</div>;\n}\n```\n\n**Advantages of Functional:**\n- Simpler syntax\n- Better performance\n- Hooks support\n- Less boilerplate\n\n**Modern React:** Use functional components with Hooks",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Components"
+                    ]
+                },
+                {
+                    "id": 306,
+                    "question": "What is Context API and when to use it?",
+                    "answer": "Context API provides **global state** without prop drilling.\n\n### Create Context\n```jsx\nconst ThemeContext = React.createContext('light');\n```\n\n### Provider\n```jsx\n<ThemeContext.Provider value='dark'>\n    <App />\n</ThemeContext.Provider>\n```\n\n### Consumer (with useContext)\n```jsx\nconst theme = useContext(ThemeContext);\n```\n\n**Use when:**\n- Authentication state\n- Theme/Language settings\n- Avoid prop drilling 5+ levels\n\n**Don't use for:** Frequent updates (use Redux/Zustand instead)",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "State Management"
+                    ]
+                },
+                {
+                    "id": 307,
+                    "question": "Why are Keys important in React Lists?",
+                    "answer": "Keys help React identify which items changed, added, or removed.\n\n### Bad (using index)\n```jsx\n{items.map((item, index) => <div key={index}>{item}</div>)}\n```\n\n### Good (using unique ID)\n```jsx\n{items.map(item => <div key={item.id}>{item.name}</div>)}\n```\n\n**Why not index?**\n- Reordering breaks\n- Performance issues\n- State bugs\n\n**Best practice:** Use stable, unique IDs from data",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Lists",
+                        "Performance"
+                    ]
+                },
+                {
+                    "id": 308,
+                    "question": "Controlled vs Uncontrolled Components.",
+                    "answer": "### Controlled Component\n- React **controls** form data via state\n- Value from state, onChange updates state\n```jsx\nconst [name, setName] = useState('');\n<input value={name} onChange={e => setName(e.target.value)} />\n```\n\n### Uncontrolled Component\n- DOM **controls** form data\n- Use `ref` to access value\n```jsx\nconst inputRef = useRef();\n<input ref={inputRef} />\nconst value = inputRef.current.value;\n```\n\n**Prefer Controlled** for validation, dynamic behavior",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Forms"
+                    ]
+                },
+                {
+                    "id": 309,
+                    "question": "What is Redux? When to use it?",
+                    "answer": "**Redux** = State management library for JavaScript apps\n\n### Core Concepts:\n\n**Store:** Single source of truth\n```javascript\nconst store = createStore(reducer);\n```\n\n**Action:** Describes what happened\n```javascript\n{ type: 'ADD_USER', payload: { name: 'John' } }\n```\n\n**Reducer:** Specifies state changes\n```javascript\nfunction reducer(state = initialState, action) {\n    switch(action.type) {\n        case 'ADD_USER': return { ...state, users: [...state.users, action.payload] };\n        default: return state;\n    }\n}\n```\n\n### When to use:\n- Large apps with complex state\n- State shared across many components\n- State changes frequently\n\n**Don't use:** For simple apps or local component state",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "State Management"
+                    ]
+                },
+                {
+                    "id": 310,
+                    "question": "How to fetch data from API in React?",
+                    "answer": "### Using fetch:\n```javascript\nfunction App() {\n    const [data, setData] = useState([]);\n    \n    useEffect(() => {\n        fetch('https://api.example.com/data')\n            .then(res => res.json())\n            .then(data => setData(data))\n            .catch(err => console.error(err));\n    }, []); // Empty array = run once\n    \n    return <div>{data.map(item => <p>{item.name}</p>)}</div>;\n}\n```\n\n### Using axios:\n```javascript\nimport axios from 'axios';\n\nuseEffect(() => {\n    axios.get('https://api.example.com/data')\n        .then(res => setData(res.data));\n}, []);\n```\n\n**Best Practice:** Handle loading and error states",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "API",
+                        "Hooks"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "dsa",
+            "title": "Data Structures",
+            "icon": "Cpu",
+            "description": "Complexity Analysis, Arrays, Trees, Graphs.",
+            "questions": [
+                {
+                    "id": 401,
+                    "question": "Explain Time Complexity (Big O) with examples.",
+                    "answer": "Big O notation describes how runtime scales with input size `n`.\n\n- **O(1) Constant**: Accessing Array index `arr[5]`. Time doesn't change if array has 10 or 10k items.\n- **O(log n) Logarithmic**: Binary Search. Splitting problem in half each step.\n- **O(n) Linear**: Simple for-loop iterating all items. Find max number.\n- **O(n log n) Linearithmic**: Efficient sorts (MergeSort, QuickSort, HeapSort).\n- **O(n²) Quadratic**: Nested loops (BubbleSort). Horrible for large inputs.\n\n**Interview Tip:** Always mention space complexity too. E.g., MergeSort is O(n log n) time but O(n) space.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Theory"
+                    ]
+                },
+                {
+                    "id": 402,
+                    "question": "HashMap internal working?",
+                    "answer": "HashMap stores key-value pairs.\n\n**Mechanism:**\n1. **Hashing:** `key.hashCode()` is called to generate a hash.\n2. **Index Calculation:** `index = hash % arraySize`. This finds the 'bucket'.\n3. **Collision Handling:** If bucket is empty, node is added. If bucket has a node (Collision), it uses a **LinkedList** (or RB-Tree in Java 8+) to chain nodes.\n4. **Retrieval (`get`):** Calculates index -> goes to bucket -> traverses list comparing keys using `.equals()`.\n\n**Java 8 Improvement:**\nWhen a bucket's linked list grows beyond 8 nodes (TREEIFY_THRESHOLD), it converts the list to a **Red-Black Tree** to improve worst-case search from O(n) to O(log n).",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Internals",
+                        "Java"
+                    ]
+                },
+                {
+                    "id": 403,
+                    "question": "Explain Two Pointer Technique with example.",
+                    "answer": "Two pointers move through array/string to solve problems efficiently.\n\n**Use Cases**:\n- Finding pairs with target sum\n- Removing duplicates\n- Reversing array\n\n**Example** (Find pair with sum = target):\n```java\nint left = 0, right = arr.length - 1;\nwhile (left < right) {\n    int sum = arr[left] + arr[right];\n    if (sum == target) return true;\n    else if (sum < target) left++;\n    else right--;\n}\n```\n\n**Time**: O(n) instead of O(n²) with nested loops",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Techniques"
+                    ]
+                },
+                {
+                    "id": 404,
+                    "question": "Compare Sorting Algorithms.",
+                    "answer": "| Algorithm | Best | Average | Worst | Space | Stable |\n|-----------|------|---------|-------|-------|--------|\n| Bubble | O(n) | O(n²) | O(n²) | O(1) | Yes |\n| Quick | O(n log n) | O(n log n) | O(n²) | O(log n) | No |\n| Merge | O(n log n) | O(n log n) | O(n log n) | O(n) | Yes |\n| Heap | O(n log n) | O(n log n) | O(n log n) | O(1) | No |\n\n**Use QuickSort** for average cases (fastest in practice)\n**Use MergeSort** when stability needed or guaranteed O(n log n)",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Sorting"
+                    ]
+                },
+                {
+                    "id": 403,
+                    "question": "Explain Two Pointer Technique with example.",
+                    "answer": "Two pointers move through array/string to solve problems efficiently.\n\n**Use Cases**:\n- Finding pairs with target sum\n- Removing duplicates\n- Reversing array\n\n**Example** (Find pair with sum = target):\n```java\nint left = 0, right = arr.length - 1;\nwhile (left < right) {\n    int sum = arr[left] + arr[right];\n    if (sum == target) return true;\n    else if (sum < target) left++;\n    else right--;\n}\n```\n\n**Time**: O(n) instead of O(n²) with nested loops",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Techniques"
+                    ]
+                },
+                {
+                    "id": 404,
+                    "question": "Compare Sorting Algorithms.",
+                    "answer": "| Algorithm | Best | Average | Worst | Space | Stable |\n|-----------|------|---------|-------|-------|--------|\n| Bubble | O(n) | O(n²) | O(n²) | O(1) | Yes |\n| Quick | O(n log n) | O(n log n) | O(n²) | O(log n) | No |\n| Merge | O(n log n) | O(n log n) | O(n log n) | O(n) | Yes |\n| Heap | O(n log n) | O(n log n) | O(n log n) | O(1) | No |\n\n**Use QuickSort** for average cases (fastest in practice)\n**Use MergeSort** when stability needed or guaranteed O(n log n)",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Sorting"
+                    ]
+                },
+                {
+                    "id": 405,
+                    "question": "How to reverse a Linked List?",
+                    "answer": "### Iterative Approach (Best)\n```java\nNode reverse(Node head) {\n    Node prev = null;\n    Node current = head;\n    while (current != null) {\n        Node next = current.next;\n        current.next = prev;\n        prev = current;\n        current = next;\n    }\n    return prev;\n}\n```\n\n**Time:** O(n), **Space:** O(1)\n\n### Recursive Approach\n```java\nNode reverse(Node head) {\n    if (head == null || head.next == null) return head;\n    Node rest = reverse(head.next);\n    head.next.next = head;\n    head.next = null;\n    return rest;\n}\n```\n\n**Time:** O(n), **Space:** O(n) due to recursion stack",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Linked List"
+                    ]
+                },
+                {
+                    "id": 406,
+                    "question": "Binary Search Tree (BST) operations.",
+                    "answer": "### Search in BST\n```java\nboolean search(Node root, int key) {\n    if (root == null) return false;\n    if (root.data == key) return true;\n    if (key < root.data) return search(root.left, key);\n    return search(root.right, key);\n}\n```\n\n### Insert in BST\n```java\nNode insert(Node root, int key) {\n    if (root == null) return new Node(key);\n    if (key < root.data) root.left = insert(root.left, key);\n    else root.right = insert(root.right, key);\n    return root;\n}\n```\n\n**Time Complexity:**\n- Average: O(log n)\n- Worst (skewed tree): O(n)",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Trees",
+                        "BST"
+                    ]
+                },
+                {
+                    "id": 407,
+                    "question": "Stack vs Queue differences and uses.",
+                    "answer": "### Stack (LIFO - Last In First Out)\n- Operations: push(), pop(), peek()\n- **Uses:** \n  - Function calls (call stack)\n  - Undo/Redo\n  - Parenthesis matching\n  - Backtracking\n\n### Queue (FIFO - First In First Out)\n- Operations: enqueue(), dequeue(), front()\n- **Uses:**\n  - BFS traversal\n  - Printer queue\n  - Task scheduling\n  - Message queues\n\n**Implementation:**\n- Stack: Array or Linked List\n- Queue: Circular array or Linked List",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Data Structures"
+                    ]
+                },
+                {
+                    "id": 408,
+                    "question": "Explain Sliding Window technique.",
+                    "answer": "Sliding Window optimizes problems involving subarrays/substrings.\n\n### Example: Max sum of k consecutive elements\n```java\nint maxSum(int[] arr, int k) {\n    int windowSum = 0, maxSum = 0;\n    // First window\n    for (int i = 0; i < k; i++) windowSum += arr[i];\n    maxSum = windowSum;\n    \n    // Slide window\n    for (int i = k; i < arr.length; i++) {\n        windowSum = windowSum - arr[i-k] + arr[i];\n        maxSum = Math.max(maxSum, windowSum);\n    }\n    return maxSum;\n}\n```\n\n**Time:** O(n) instead of O(n*k) with nested loops\n\n**Use cases:** Longest substring, maximum sum subarray",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Techniques",
+                        "Optimization"
+                    ]
+                },
+                {
+                    "id": 409,
+                    "question": "Write a program to check if a string is Palindrome.",
+                    "answer": "### Approach 1: Two Pointers\n```java\nboolean isPalindrome(String s) {\n    int left = 0, right = s.length() - 1;\n    while (left < right) {\n        if (s.charAt(left) != s.charAt(right))\n            return false;\n        left++;\n        right--;\n    }\n    return true;\n}\n```\n**Time:** O(n), **Space:** O(1)\n\n### Approach 2: Reverse and Compare\n```java\nboolean isPalindrome(String s) {\n    String reversed = new StringBuilder(s).reverse().toString();\n    return s.equals(reversed);\n}\n```\n**Time:** O(n), **Space:** O(n)",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Strings",
+                        "Two Pointer"
+                    ]
+                },
+                {
+                    "id": 410,
+                    "question": "Explain BFS and DFS in graphs.",
+                    "answer": "### BFS (Breadth-First Search)\n- **Level-by-level** traversal\n- Uses **Queue**\n- Finds shortest path\n```java\nvoid BFS(Node start) {\n    Queue<Node> queue = new LinkedList<>();\n    Set<Node> visited = new HashSet<>();\n    queue.add(start);\n    \n    while (!queue.isEmpty()) {\n        Node node = queue.poll();\n        if (!visited.contains(node)) {\n            System.out.println(node.val);\n            visited.add(node);\n            queue.addAll(node.neighbors);\n        }\n    }\n}\n```\n\n### DFS (Depth-First Search)\n- **Deep dive** before backtrack\n- Uses **Stack** (or recursion)\n```java\nvoid DFS(Node node, Set<Node> visited) {\n    if (visited.contains(node)) return;\n    System.out.println(node.val);\n    visited.add(node);\n    for (Node neighbor : node.neighbors) {\n        DFS(neighbor, visited);\n    }\n}\n```\n\n**Use BFS:** Shortest path, level-order\n**Use DFS:** Connectivity, cycle detection",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Graphs",
+                        "Algorithms"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "hr",
+            "title": "HR & Behavioral",
+            "icon": "Users",
+            "description": "Behavioral questions using STAR method.",
+            "questions": [
+                {
+                    "id": 501,
+                    "question": "Tell me about a challenge you faced and how you solved it.",
+                    "answer": "Use the **STAR** method:\n\n- **S (Situation):** \"In my final year project, we were building an e-commerce app...\"\n- **T (Task):** \"...we faced a critical bug where payment gateway callbacks were timing out during high load.\"\n- **A (Action):** \"I analyzed the server logs and found we were processing payments synchronously. I refactored the code to use a Message Queue (RabbitMQ) for asynchronous processing.\"\n- **R (Result):** \"The timeout issue was eliminated, and system throughput increased by 40%.\"",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Behavioral"
+                    ]
+                },
+                {
+                    "id": 502,
+                    "question": "Why should we hire you?",
+                    "answer": "Don't just list generic adjectives.\n\n**Template:**\n\"You are looking for a [Role] who can [Key Requirement 1] and [Key Requirement 2].\n\nIn my previous experience/projects, I successfully [Achievement 1 utilizing Req 1]. Additionally, my strong foundation in [Skill 2] will help me solve [Company Problem]. I am a quick learner, evidenced by [Example], and I am genuinely excited about your company's work in [Company Domain].\"",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Pitch"
+                    ]
+                },
+                {
+                    "id": 503,
+                    "question": "What are your strengths and weaknesses?",
+                    "answer": "### Strengths (Pick 2-3 genuine ones)\n**Template:** Strength + Example\n\n*\"My key strength is **problem-solving**. In my recent project, I optimized a slow API by implementing caching, reducing response time by 40%. I also have strong **collaboration skills** - I mentored 3 junior developers in my internship.\"*\n\n### Weaknesses (Pick 1, show improvement)\n**Template:** Weakness + What you're doing to improve\n\n*\"I sometimes focus too much on perfection which can slow me down. To improve this, I've started using time-boxing - allocating specific time for tasks and then moving forward, which has improved my efficiency.\"*\n\n**Don't say:** \"I'm a perfectionist\" or \"I work too hard\"",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Self-awareness"
+                    ]
+                },
+                {
+                    "id": 504,
+                    "question": "Why do you want to work for our company?",
+                    "answer": "**Research the company first!**\n\n### Template:\n1. **Specific interest** in company's product/tech\n2. **Alignment** with your career goals\n3. **Values** match\n\n**Example:**\n*\"I'm particularly excited about [Company]'s work in [specific technology/product]. Your use of microservices architecture aligns perfectly with my experience in Spring Boot. I've been following your tech blog and impressed by your focus on innovation. The collaborative culture you promote matches my working style, and I believe I can contribute significantly to your [specific team/project].\"*\n\n**Don't say:** \"For money\" or \"It's close to my house\"",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Motivation"
+                    ]
+                },
+                {
+                    "id": 505,
+                    "question": "Where do you see yourself in 5 years?",
+                    "answer": "**Show growth mindset + alignment with company**\n\n### Template:\n\"In 5 years, I see myself as [realistic progression]...\"\n\n**Example:**\n*\"In 5 years, I see myself as a Senior Full-Stack Developer, having mastered both frontend and backend technologies. I'd like to lead a small team, mentor junior developers, and contribute to architectural decisions. I'm also interested in cloud technologies, so I hope to gain AWS certifications. Most importantly, I want to be someone the organization relies on for solving complex technical challenges.\"*\n\n**Avoid:**\n- \"Your job\" (threatening)\n- \"Don't know\" (no ambition)\n- Completely unrelated field",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Career Goals"
+                    ]
+                },
+                {
+                    "id": 506,
+                    "question": "Describe a time you faced conflict at work/team.",
+                    "answer": "**Use STAR method**\n\n**Example:**\n\n**Situation:** \"In my college project, our team disagreed on technology stack - React vs Angular.\"\n\n**Task:** \"I needed to resolve this to move forward without affecting team morale.\"\n\n**Action:** \"I organized a meeting where each person presented pros/cons with research. I created a comparison matrix based on project requirements, team skills, and deadlines. We voted democratically.\"\n\n**Result:** \"We chose React. The decision-making process improved team bonding. We completed the project successfully and everyone learned React together.\"\n\n**Key:** Show maturity, communication, and problem-solving",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Behavioral",
+                        "Conflict Resolution"
+                    ]
+                },
+                {
+                    "id": 507,
+                    "question": "Biggest achievement in your career/academics?",
+                    "answer": "**Pick something impressive + relevant**\n\n### Template:\nChallenge + Your Action + Result\n\n**Example:**\n*\"My biggest achievement was optimizing a microservices project during my internship at [Company]. The order service was timing under high load.*\n\n*I analyzed the bottleneck, found N+1 query issues in database calls, and implemented batch processing and Redis caching. This improved response time by 60% and handled 1000+ concurrent requests.*\n\n*The solution was presented to senior architects and adopted across other services. This taught me the importance of performance optimization and gave me confidence in handling production issues.\"*\n\n**Quantify results** whenever possible!",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Achievements"
+                    ]
+                },
+                {
+                    "id": 508,
+                    "question": "How do you handle failure or criticism?",
+                    "answer": "**Show growth mindset**\n\n### Template:\nAcknowledge + Learn + Improve\n\n**Example:**\n*\"I view failure as a learning opportunity. In my first internship, I pushed code that broke the staging environment - I forgot to test edge cases.*\n\n*Instead of being defensive, I:*\n*1. Immediately owned the mistake and fixed it*\n*2. Conducted a root cause analysis*\n*3. Implemented a personal checklist for code review*\n*4. Now I use test-driven development (TDD)*\n\n*This failure made me a more thorough developer. I always ask for feedback from seniors and use criticism to identify blind spots.\"*\n\n**Show:** Accountability + Action + Growth",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Self-improvement"
+                    ]
+                },
+                {
+                    "id": 509,
+                    "question": "Tell me about yourself (Sample Answer for Java Full-Stack Developer)",
+                    "answer": "This is THE MOST IMPORTANT question. Here's a structured approach with a sample answer:\n\n### **Structure (60-90 seconds):**\n1. **Present** (Current role/education)\n2. **Past** (Relevant experience)\n3. **Future** (Why this company/role)\n\n---\n\n### **Sample Answer for Java Full-Stack Developer:**\n\n*\"Good morning/afternoon. I'm Divahar P, currently in my final year of B.Tech in Information Technology at Anna University with a CGPA of 7.8.*\n\n*I'm working as a Java Full-Stack Developer Intern at KodNest Technologies in Bengaluru, where I've been developing RESTful APIs using Spring Boot and building responsive frontends with React.js. One of my key achievements was optimizing backend processing by 35% through implementing a microservices architecture, and I also developed customer-facing dashboards that increased user engagement by 40%.*\n\n*I'm particularly passionate about full-stack development and microservices. I've built an e-commerce platform using Spring Boot, MongoDB, and React that handles over 1,000 requests per minute. I also set up CI/CD pipelines with GitHub Actions, which accelerated our deployment process by 20%.*\n\n*What excites me about [Company Name] is [specific reason - their tech stack, products, culture, or projects]. I'm looking to leverage my experience in Java, Spring Boot, and React to contribute to building scalable, user-centric applications while continuing to grow as a developer.*\n\n*I'm a quick learner, a team player, and I'm genuinely excited about this opportunity.\"*\n\n---\n\n### **Key Elements to Include:**\n\n1. **Education**: Mention your degree, university, CGPA (if good)\n2. **Current Role**: Internship/job with key responsibilities\n3. **Technical Skills**: Java, Spring Boot, React, databases\n4. **Achievements**: Use numbers (35% improvement, 40% increase, etc.)\n5. **Projects**: Mention 1-2 impressive projects with metrics\n6. **Why This Company**: Show you've researched them\n7. **Personality**: Quick learner, team player, passionate\n\n---\n\n### **Customization Template:**\n\n*\"I'm [Your Name], [Current Status - final year student/working professional] at [Institution/Company].*\n\n*Currently, I'm [Current Role] where I [Key Responsibility 1] and [Key Responsibility 2]. I achieved [Specific Achievement with Numbers].*\n\n*I'm skilled in [Tech Stack: Java, Spring Boot, React, SQL, etc.]. I built [Project Name] using [Technologies] that [Impact/Metric].*\n\n*What attracts me to [Company] is [Specific Reason]. I'm excited to contribute my [Skills] to [Company's Work/Product].\"*\n\n---\n\n### **Common Mistakes to Avoid:**\n\n❌ Starting with \"My name is...\" (they know from resume)  \n❌ Talking about childhood or personal life  \n❌ Being too long (>2 minutes)  \n❌ Just repeating resume  \n❌ Not mentioning why you want THIS job  \n❌ Being too generic  \n\n---\n\n### **Tips:**\n\n✅ **Practice out loud** 10+ times  \n✅ **Time yourself** (aim for 60-90 seconds)  \n✅ **Use STAR** for achievements  \n✅ **Smile and maintain eye contact**  \n✅ **Show enthusiasm**  \n✅ **End with why you want THIS role**  \n\n---\n\n### **For Freshers (No Experience):**\n\n*\"I'm [Name], final year B.Tech student in [Branch] at [University] with [CGPA].*\n\n*During my academics, I've focused on full-stack development. I built [Project 1] using Java and Spring Boot that [Achievement]. I also developed [Project 2] with React that [Impact].*\n\n*I've completed certifications in [Courses] and practiced [Number] DSA problems on LeetCode. I'm particularly strong in [Skills].*\n\n*I'm drawn to [Company] because [Reason]. I'm eager to apply my knowledge and learn from experienced developers while contributing to [Company's Work].\"*\n\n---\n\n### **Practice Questions:**\n\nAfter answering, be ready for:\n- \"Walk me through your resume\"\n- \"Tell me about your project in detail\"\n- \"What's your biggest achievement?\"\n- \"Why should we hire you?\"\n\n**Remember:** This is your FIRST IMPRESSION. Make it count! 🎯",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Introduction",
+                        "Most Important"
+                    ]
+                }
+            ]
+        }
+    ]
+}

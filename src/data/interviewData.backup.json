@@ -1,0 +1,227 @@
+{
+    "stats": {
+        "totalQuestions": 30,
+        "completedQuestions": 0,
+        "streak": 0,
+        "topicsCovered": 6
+    },
+    "topics": [
+        {
+            "id": "java-core",
+            "title": "Core Java",
+            "icon": "Coffee",
+            "description": "Master the fundamentals of Java, OOPs, Multithreading, and Collections.",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "What is the difference between JDK, JRE, and JVM?",
+                    "answer": "This is a fundamental question. Let's break it down hierarchically.\n\n### 1. JVM (Java Virtual Machine)\n- **Role:** It is the engine that drives the Java code. It converts Java bytecode into machine language.\n- **Nature:** It is an abstract machine (specification). It doesn't physically exist but its implementation exists.\n- **Responsibility:** Loads code, verifies code, executes code, and manages memory.\n\n### 2. JRE (Java Runtime Environment)\n- **Role:** It is a software package that provides the class libraries, loader class, and JVM.\n- **Includes:** JVM + Libraries (rt.jar, etc.) + Other components.\n- **Use Case:** If you only want to *run* a Java program (not develop), you only need JRE.\n\n### 3. JDK (Java Development Kit)\n- **Role:** It is a full-featured software development environment.\n- **Includes:** JRE + Developmental Tools (javac, java, javadoc, jdb, etc.).\n- **Use Case:** Required by developers to write and compile Java programs.\n\n**Visual Equation:**\n> JDK = JRE + Development Tools\n> JRE = JVM + Library Classes",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Basics",
+                        "Architecture"
+                    ]
+                },
+                {
+                    "id": 2,
+                    "question": "Explain the concept of OOPs with real-world examples.",
+                    "answer": "Object-Oriented Programming (OOP) mimics real-world scenarios using objects. The four main pillars are:\n\n### 1. Encapsulation\n**Definition:** Wrapping data (variables) and code (methods) together as a single unit.\n**Real World:** A capsule medicine. You don't know the exact chemical composition inside, you just use it. Or a generic car engine - hidden complexity under the hood.\n**Code:** Using `private` variables and `public` getters/setters.\n\n### 2. Inheritance\n**Definition:** Code reusability. One class acquires properties of another.\n**Real World:** Data transferred from valid parents to children (Genes).\n**Code:** `class Dog extends Animal`.\n\n### 3. Polymorphism\n**Definition:** \"Poly\" (many) + \"Morph\" (forms). Ability to take multiple forms.\n**Types:**\n- **Compile-time (Overloading):** Same method name, different parameters. E.g., `add(int a, int b)` vs `add(double a, double b)`.\n- **Runtime (Overriding):** Same method signature in parent and child. Child provides specific implementation.\n**Real World:** A man can be a father, a husband, and an employee at the same time.\n\n### 4. Abstraction\n**Definition:** Hiding internal details and showing only functionality.\n**Real World:** Driving a car. You know how to use the steering and pedals, but you don't need to know how the fuel injection works.\n**Code:** `abstract class` or `interface`.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "OOPs",
+                        "Concepts"
+                    ]
+                },
+                {
+                    "id": 3,
+                    "question": "Difference between `==` and `.equals()`?",
+                    "answer": "This is a classic trap for beginners.\n\n### `==` Operator\n- **Type:** Binary operator.\n- **Comparison:** Compares **reference** or **memory address** of objects.\n- **For Primitives:** Compares actual values (e.g., `5 == 5` is true).\n\n### `.equals()` Method\n- **Type:** Method in `Object` class.\n- **Comparison:** Default implementation compares references (like `==`), BUT it is generally **overridden** to compare **content/values**.\n- **Example (String):** the String class overrides `.equals()` to check character sequences.\n\n### Code Example\n```java\nString s1 = new String(\"HELLO\");\nString s2 = new String(\"HELLO\");\n\nSystem.out.println(s1 == s2);       // false (different memory objects)\nSystem.out.println(s1.equals(s2));  // true (same content)\n```\n\n**Note:** String literals works differently due to String Pool.\n```java\nString s3 = \"HELLO\";\nString s4 = \"HELLO\";\nSystem.out.println(s3 == s4);       // true (same pool reference)\n```",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Strings",
+                        "Basics"
+                    ]
+                },
+                {
+                    "id": 4,
+                    "question": "What is the contract between hashCode() and equals()?",
+                    "answer": "This contract is crucial for Hash-based collections like `HashMap`, `HashSet`, etc.\n\n**The Rules:**\n1. Defines consistency: If `x.equals(y)` is **true**, then `x.hashCode()` MUST generally equal `y.hashCode()`.\n2. If `x.equals(y)` is **false**, `x.hashCode()` and `y.hashCode()` *can* be the same (Collision), but it's better for performance if they are different.\n\n**Why?**\nCollections use hash code to find the 'bucket' where the object is stored. If hash codes match, it then uses `.equals()` to check if it's the specific object it's looking for.\n\n**Consequence:**\nIf you override `equals()`, you **MUST** override `hashCode()`. If you don't, your object might be treated as 'different' by a HashMap even if logical equality is true, leading to memory leaks or incorrect data retrieval.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Collections",
+                        "Core"
+                    ]
+                },
+                {
+                    "id": 5,
+                    "question": "Explain String Constant Pool (SCP).",
+                    "answer": "**String Constant Pool** is a special memory area in the Java Heap.\n\n**How it works?**\nWhen you create a string literal (e.g., `String s = \"Hello\"`), JVM checks the pool.\n- If \"Hello\" exists -> Returns reference to existing instance.\n- If doesn't exist -> Creates new instance in pool.\n\n**Vs `new` keyword:**\n`String s = new String(\"Hello\")` forces creation of a new object in the generic Heap memory, *plus* it might place a copy in the pool if interned.\n\n**Benefit:** huge memory saving by reusing immutable String objects.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Strings",
+                        "Memory"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "spring-boot",
+            "title": "Spring Boot",
+            "icon": "Leaf",
+            "description": "Production-ready apps, Dependency Injection, and Microservices.",
+            "questions": [
+                {
+                    "id": 101,
+                    "question": "Why Spring Boot over Spring?",
+                    "answer": "Spring Boot is an opinionated framework that simplifies Spring development.\n\n### Key Differences\n\n| Feature | Spring Framework | Spring Boot |\n|---------|------------------|-------------|\n| **Configuration** | Heavy XML or Annotation based config required. | Zero configuration approach (Auto-config). |\n| **Server** | Must download and setup specific server (Tomcat/Jetty) | Embedded servers (Tomcat/Jetty/Undertow). Just run JAR. |\n| **Dependencies** | Manual version management (Collision hell). | **Starters** (e.g., `spring-boot-starter-web`) handle dependencies automatically. |\n| **Metrics** | Manual implementation. | **Actuator** provides production-ready metrics out of the box. |\n\n**Summary:** Spring Boot is \"Spring on Steroids\" - focus on logic, not config.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Framework"
+                    ]
+                },
+                {
+                    "id": 102,
+                    "question": "How does Auto-Configuration work?",
+                    "answer": "Auto-configuration is the magic behind Spring Boot.\n\n**Mechanism:**\n1. **`@EnableAutoConfiguration`**: This annotation (part of `@SpringBootApplication`) triggers the process.\n2. **Classpath Scanning**: It checks your `pom.xml` / `build.gradle`. Is `H2` database on classpath? Is `Spring MVC` on classpath?\n3. **Conditional Logic**: It uses annotations like `@ConditionalOnClass`, `@ConditionalOnMissingBean`.\n\n**Example:**\nIf you have `spring-boot-starter-web` (which has Tomcat) and you haven't defined a server, Spring Boot says: *\"I see Tomcat logic on the classpath, and no user-defined server configuration. I will configure an embedded Tomcat server on port 8080 automatically.\"*",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Internals"
+                    ]
+                },
+                {
+                    "id": 103,
+                    "question": "Explain Spring Bean Lifecycle.",
+                    "answer": "The lifecycle of a Bean is managed by the Spring IoC (Inversion of Control) Container.\n\n**Main Steps:**\n1. **Instantiation**: Container creates the instance of the bean.\n2. **Populate Properties**: Dependency Injection happens here (Setters/Fields).\n3. **SetGroups**: Calls `setBeanName`, `setBeanFactory`.\n4. **Pre-Initialization**: `BeanPostProcessor.postProcessBeforeInitialization`.\n5. **Initialization**: Custom `init-method` or `@PostConstruct`.\n6. **Post-Initialization**: `BeanPostProcessor.postProcessAfterInitialization`.\n7. **Ready**: Bean is ready to use.\n8. **Destruction**: `@PreDestroy` or `destroy-method` when container shuts down.\n\n**Interview Tip:** Mention `@PostConstruct` and `@PreDestroy` as they are the most common ways developers hook into this lifecycle.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Spring Core"
+                    ]
+                },
+                {
+                    "id": 104,
+                    "question": "What is Dependency Injection types?",
+                    "answer": "Dependency Injection (DI) is a design pattern where the IoC container provides the dependencies an object needs.\n\n### 1. Constructor Injection (Recommended)\n- Dependencies are passed via constructor.\n- **Pros:** Ensures object passes strictly valid state (cannot be null), easy to test.\n```java\n@Service\npublic class UserService {\n    private final UserRepository repo;\n    public UserService(UserRepository repo) { this.repo = repo; }\n}\n```\n\n### 2. Setter Injection\n- Dependencies passed via setter methods.\n- **Pros:** Optional dependencies.\n\n### 3. Field Injection (Not Recommended)\n- Using `@Autowired` directly on fields.\n- **Cons:** Hard to test (need reflection), breaks encapsulation, hides dependencies.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "DI",
+                        "Best Practices"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "database",
+            "title": "Database (SQL)",
+            "icon": "Database",
+            "description": "SQL optimization, Normalization, ACID, and Indexing.",
+            "questions": [
+                {
+                    "id": 201,
+                    "question": "Detailed difference: DELETE vs TRUNCATE vs DROP?",
+                    "answer": "| Feature | DELETE | TRUNCATE | DROP |\n|:--------|:-------|:---------|:-----|\n| **Type** | DML (Data Manipulation) | DDL (Data Definition) | DDL |\n| **Action** | Deletes rows conditionally. | Deletes ALL rows. Resets identity. | Deletes table structure + data. |\n| **Where Clause** | Allowed (`DELETE FROM User WHERE id=1`) | NOT Allowed | NOT Allowed |\n| **Rollback** | Possible (logs each deletion). | Not possible (minimal logging).* | Not possible. |\n| **Speed** | Slow (row-by-row). | Fast (deallocates pages). | Fastest. |\n\n*Note: In some DBs like SQL Server, Truncate *can* be rolled back if inside a transaction block, but generally treated as non-rollbackable in interviews.*",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "SQL Commands"
+                    ]
+                },
+                {
+                    "id": 202,
+                    "question": "Explain ACID properties in depth.",
+                    "answer": "ACID properties ensure transaction reliability.\n\n### Atomicity (All or Nothing)\nTransaction is a single unit of work. If one part fails, the entire transaction fails. \n*Example: Money deducted from A but not added to B? Rollback everything.*\n\n### Consistency (Valid State)\nDatabase must move from one valid state to another valid state, obeying all constraints (FK, Unique, Checks).\n\n### Isolation (Independency)\nConcurrent transactions should not interfere with each other. \n*Levels: Read Uncommitted, Read Committed, Repeatable Read, Serializable.*\n\n### Durability (Permanence)\nOnce committed, data stays committed even if power fails immediately after. Stored in non-volatile memory.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Concepts"
+                    ]
+                },
+                {
+                    "id": 203,
+                    "question": "What is an Index? How does it make searching fast?",
+                    "answer": "**Definition:** An index is a data structure (usually B-Tree) that improves speed of data retrieval.\n\n**Analogy:** The index at the back of a book. Without it, you'd scan every page (Full Table Scan) to find \"Polymorphism\". With it, you go to 'P', find page number, and jump directly.\n\n**Cost:**\n- **Write Speed:** Slows down `INSERT`/`UPDATE` operations because the index must also be updated.\n- **Storage:** Consumes extra disk space.\n\n**Clustered vs Non-Clustered:**\n- **Clustered:** Sorts the actual data rows (like a Dictionary). Only 1 per table (usually PK).\n- **Non-Clustered:** Separate structure pointing to data rows (like Book Index). Can have multiple.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Performance"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "react",
+            "title": "React.js",
+            "icon": "Code",
+            "description": "Component Lifecycle, Hooks, Redux, and Virtual DOM.",
+            "questions": [
+                {
+                    "id": 301,
+                    "question": "Explain React Hooks deep dive.",
+                    "answer": "Hooks (introduced in React 16.8) allow function components to have state and lifecycle.\n\n### Common Hooks\n\n1. **`useState`**: Manages local state.\n   ```js\n   const [count, setCount] = useState(0);\n   ```\n\n2. **`useEffect`**: Use for side effects (API calls, subscriptions).\n   - Dependency Array `[]` = Runs once (componentDidMount).\n   - `[prop]` = Runs when prop changes (componentDidUpdate).\n   - Return function = Cleanup (componentWillUnmount).\n\n3. **`useContext`**: Avoids prop drilling by consuming context globally.\n\n4. **`useMemo`**: Memoizes a *value* to avoid expensive recalculations.\n\n5. **`useCallback`**: Memoizes a *function* instance to prevent unnecessary child re-renders.\n\n**Rule of Hooks:**\n- Only call at the top level (no loops/conditions).\n- Only call from React functions.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Hooks"
+                    ]
+                },
+                {
+                    "id": 302,
+                    "question": "Virtual DOM & Reconciliation/Diffing Algorithm.",
+                    "answer": "**Problem with Real DOM:** It is slow to update. Relayout and repainting is expensive.\n\n**Solution: Virtual DOM (VDOM)**\n1. VDOM is a lightweight Javascript object representation of DOM.\n2. When state changes, React creates a **new** VDOM tree.\n3. **Diffing Algorithm:** React compares the new VDOM with the previous VDOM.\n   - It identifies exactly what changed (e.g., just the text of one button).\n4. **Reconciliation:** React updates *only* those specific nodes in the Real DOM.\n\n**Why is it faster?**\nBatch updates minimize the interaction with the heavy browser DOM API.",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Architecture"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "dsa",
+            "title": "Data Structures",
+            "icon": "Cpu",
+            "description": "Complexity Analysis, Arrays, Trees, Graphs.",
+            "questions": [
+                {
+                    "id": 401,
+                    "question": "Explain Time Complexity (Big O) with examples.",
+                    "answer": "Big O notation describes how runtime scales with input size `n`.\n\n- **O(1) Constant**: Accessing Array index `arr[5]`. Time doesn't change if array has 10 or 10k items.\n- **O(log n) Logarithmic**: Binary Search. Splitting problem in half each step.\n- **O(n) Linear**: Simple for-loop iterating all items. Find max number.\n- **O(n log n) Linearithmic**: Efficient sorts (MergeSort, QuickSort, HeapSort).\n- **O(n²) Quadratic**: Nested loops (BubbleSort). Horrible for large inputs.\n\n**Interview Tip:** Always mention space complexity too. E.g., MergeSort is O(n log n) time but O(n) space.",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Theory"
+                    ]
+                },
+                {
+                    "id": 402,
+                    "question": "HashMap internal working?",
+                    "answer": "HashMap stores key-value pairs.\n\n**Mechanism:**\n1. **Hashing:** `key.hashCode()` is called to generate a hash.\n2. **Index Calculation:** `index = hash % arraySize`. This finds the 'bucket'.\n3. **Collision Handling:** If bucket is empty, node is added. If bucket has a node (Collision), it uses a **LinkedList** (or RB-Tree in Java 8+) to chain nodes.\n4. **Retrieval (`get`):** Calculates index -> goes to bucket -> traverses list comparing keys using `.equals()`.\n\n**Java 8 Improvement:**\nWhen a bucket's linked list grows beyond 8 nodes (TREEIFY_THRESHOLD), it converts the list to a **Red-Black Tree** to improve worst-case search from O(n) to O(log n).",
+                    "difficulty": "Hard",
+                    "tags": [
+                        "Internals",
+                        "Java"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "hr",
+            "title": "HR & Behavioral",
+            "icon": "Users",
+            "description": "Behavioral questions using STAR method.",
+            "questions": [
+                {
+                    "id": 501,
+                    "question": "Tell me about a challenge you faced and how you solved it.",
+                    "answer": "Use the **STAR** method:\n\n- **S (Situation):** \"In my final year project, we were building an e-commerce app...\"\n- **T (Task):** \"...we faced a critical bug where payment gateway callbacks were timing out during high load.\"\n- **A (Action):** \"I analyzed the server logs and found we were processing payments synchronously. I refactored the code to use a Message Queue (RabbitMQ) for asynchronous processing.\"\n- **R (Result):** \"The timeout issue was eliminated, and system throughput increased by 40%.\"",
+                    "difficulty": "Medium",
+                    "tags": [
+                        "Behavioral"
+                    ]
+                },
+                {
+                    "id": 502,
+                    "question": "Why should we hire you?",
+                    "answer": "Don't just list generic adjectives.\n\n**Template:**\n\"You are looking for a [Role] who can [Key Requirement 1] and [Key Requirement 2].\n\nIn my previous experience/projects, I successfully [Achievement 1 utilizing Req 1]. Additionally, my strong foundation in [Skill 2] will help me solve [Company Problem]. I am a quick learner, evidenced by [Example], and I am genuinely excited about your company's work in [Company Domain].\"",
+                    "difficulty": "Easy",
+                    "tags": [
+                        "Pitch"
+                    ]
+                }
+            ]
+        }
+    ]
+}
